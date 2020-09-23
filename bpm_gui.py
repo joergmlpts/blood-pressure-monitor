@@ -1,7 +1,22 @@
 #!/usr/bin/env python3
 
 import datetime, os, sys
-import bpm_bt, bpm_db, bpm_usb
+import bpm_db
+
+import_error = ''
+try:
+    import bpm_bt
+    bpm_bt_loaded = True
+except ImportError as e:
+    import_error = str(e)
+    bpm_bt_loaded = False
+
+try:
+    import bpm_usb
+    bpm_usb_loaded = True
+except ImportError as e:
+    import_error = str(e)
+    bpm_usb_loaded = False
 
 # if missing, install on Ubuntu with 'sudo apt install python3-pyqt5'
 from PyQt5.QtCore    import QDate, QDateTime, Qt
@@ -88,6 +103,7 @@ class MainWindow(QMainWindow):
         self.edit_menu.addAction(edit_patient_action);
 
         self.bluetooth_menu = self.menu.addMenu("Bluetooth")
+        self.bluetooth_menu.setEnabled(bpm_bt_loaded)
 
         bluetooth_action = QAction("Receive Measurements ...", self)
         bluetooth_action.triggered.connect(self.bluetooth_receive)
@@ -102,6 +118,7 @@ class MainWindow(QMainWindow):
         self.bluetooth_menu.addAction(clear_id_action);
 
         self.usb_menu = self.menu.addMenu("USB")
+        self.usb_menu.setEnabled(bpm_usb_loaded)
 
         usb_action = QAction("Receive Measurements ...", self)
         usb_action.triggered.connect(self.usb_receive)
@@ -136,6 +153,8 @@ class MainWindow(QMainWindow):
                     msg += ', gender ' + info['gender'].lower()
                 msg += '.'
             self.status.showMessage(msg)
+        elif import_error:
+            self.status.showMessage(import_error)
         elif len(self.patient_ids) == 0:
             self.status.showMessage('No patients in database.')
         elif len(self.patient_ids) == 1:
@@ -527,7 +546,7 @@ class PatientDialog(QDialog):
 
         if kind == self.ADD_PATIENT:
             self.id = QLineEdit(self)
-            self.id.setMaxLength(Microlife_BPM.MAX_ID_LENGTH)
+            self.id.setMaxLength(20)
         else:
             self.id = QComboBox(self)
             for ident in self.patient_ids:
@@ -542,7 +561,7 @@ class PatientDialog(QDialog):
         self.birthday.setReadOnly(kind == self.DELETE_PATIENT)
 
         self.gender = QComboBox(self)
-        for choice in ["Female", "Male", "Other"]:
+        for choice in ["Female", "Male", "Non-binary"]:
             self.gender.addItem(choice)
 
         self.sys_limit = QLineEdit(str(self.SYSTOLIC_DEFAULT))
@@ -590,7 +609,7 @@ class PatientDialog(QDialog):
                               in info else QDate.fromString("1/1/2000",
                                                         bpm_db.BIRTHDAY_FMT))
         self.gender.setCurrentText(info['gender'] if 'gender' in info
-                                   else "Other")
+                                   else "Non-binary")
         self.sys_limit.setText(str(info['systolic_limit']) if 'systolic_limit'
                                in info else str(self.SYSTOLIC_DEFAULT))
         self.dia_limit.setText(str(info['diastolic_limit']) if 'diastolic_lim'
