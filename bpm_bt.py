@@ -87,7 +87,10 @@ class Discovery:
         self.bpm = bpm
         self.patient_id_cb = patient_id_cb
         self.found_device = None
-        asyncio.run(self.run())
+        if self.bpm.loop is None:
+            asyncio.run(self.run())                      # since Python 3.10
+        else:
+            self.bpm.loop.run_until_complete(self.run()) # before Python 3.10
 
     async def run(self):
         self.devices = await discover()
@@ -128,7 +131,11 @@ class Discovery:
         try:
             if self.found_device:
                 return # another coroutine has already found it
-            async with BleakClient(mac_addr) as client:
+
+            # do not pass loop in Python 3.10
+            args = {} if self.bpm.loop is None else { 'loop' : self.bpm.loop }
+
+            async with BleakClient(mac_addr, **args) as client:
                 if self.found_device:
                     return # another coroutine has already found it
                 services = await client.get_services()
@@ -197,6 +204,9 @@ class Microlife_BTLE():
             self.in_gui = False
         self.update_id = update_id
 
+        self.loop = asyncio.get_event_loop() \
+               if sys.version_info.major == 3 and sys.version_info.minor < 10 \
+               else None                      # event loop only for pre-3.10
         self.result_event = asyncio.Event()   # event signals result received
         self.received_value = bytearray()     # data received so far
         self.result = bytearray()             # command result received
