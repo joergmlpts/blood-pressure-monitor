@@ -1,5 +1,5 @@
 
-# Microlife Bluetooth and USB Blood Pressure Monitors for Linux, MacOS and Windows 10
+# Microlife Bluetooth and USB Blood Pressure Monitors for Linux, MacOS and Windows
 
 This repository provides Python code to download readings via Bluetooth from the Microlife BP3GY1-2N blood pressure monitor [sold at Costco stores](https://www.costco.com/microlife-bluetooth-upper-arm-blood-pressure-monitor-with-irregular-heartbeat-detection.product.100519769.html). USB devices, specifically the Microlife model BP3GX1-5X, purchased at Costco in February 2015, are also supported.
 
@@ -28,7 +28,7 @@ sudo pip3 install bleak hid
 
 ## MacOS and Windows
 
-The Bluetooth code has recently been rewritten to use the [`bleak`](https://github.com/hbldh/bleak) package for Bluetooth LE. The USB code requires the `hid` package. Thanks to `bleak's` and `hid's` availability on Linux, Windows 10 and MacOS, this code should work on all three platforms.
+The Bluetooth code has recently been rewritten to use the [`bleak`](https://github.com/hbldh/bleak) package for Bluetooth LE. The USB code requires the `hid` package. Thanks to `bleak's` and `hid's` availability on Linux, Windows and MacOS, this code should work on all three platforms.
 
 The packages `bleak` and `hid` as well as `PyQt5` and `matplotlib` for the GUI, can be installed with the following command
 ```
@@ -39,7 +39,7 @@ where `pip3` should be used instead of `pip` when appropriate to avoid accidenta
 USB communication is based on the [`hid`](https://pypi.org/project/hid/) package. The Python module `hid` requires the native library `hidapi` to be installed. Please follow [these instructions](https://pypi.org/project/hid/) to install `hidapi`.
 
   * This code has been developed on Ubuntu **Linux** 18.04 and it works fine on Linux.
-  * This code now works fine on **Windows 10** as well. The recent ports to `bleak` and `hid` enabled these tools to run on WIndows 10 as well.
+  * This code now works fine on **Windows** as well. The recent ports to `bleak` and `hid` enabled these tools to run on WIndows 10 as well.
   * No feedback for **MacOS** has been received yet.
 
 ## GUI
