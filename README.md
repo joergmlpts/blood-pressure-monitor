@@ -1,7 +1,6 @@
-
 # Microlife Bluetooth and USB Blood Pressure Monitors for Linux, MacOS and Windows
 
-This repository provides Python code to download readings via Bluetooth from the Microlife BP3GY1-2N blood pressure monitor [sold at Costco stores](https://www.costco.com/microlife-bluetooth-upper-arm-blood-pressure-monitor-with-irregular-heartbeat-detection.product.100519769.html). USB devices, specifically the Microlife model BP3GX1-5X, purchased at Costco in February 2015, are also supported.
+This repository provides Python code to download readings via Bluetooth from the Microlife BP3GY1-2N blood pressure monitor sold at Costco stores. USB devices, specifically the Microlife model BP3GX1-5X, purchased at Costco in February 2015, are also supported.
 
 This code was developed on Ubuntu 18.04 Linux. It updates the date and time and patient UD of the blood pressure monitor and downloads the blood pressure monitor's ID and readings. It inserts the ID and readings into a database.
 
