@@ -105,7 +105,7 @@ class MainWindow(QMainWindow):
         self.bluetooth_menu = self.menu.addMenu("Bluetooth")
         self.bluetooth_menu.setEnabled(bpm_bt_loaded)
 
-        bluetooth_action = QAction("Receive Measurements ...", self)
+        bluetooth_action = QAction("Receive Readings ...", self)
         bluetooth_action.triggered.connect(self.bluetooth_receive)
         self.bluetooth_menu.addAction(bluetooth_action);
 
@@ -120,7 +120,7 @@ class MainWindow(QMainWindow):
         self.usb_menu = self.menu.addMenu("USB")
         self.usb_menu.setEnabled(bpm_usb_loaded)
 
-        usb_action = QAction("Receive Measurements ...", self)
+        usb_action = QAction("Receive Readings ...", self)
         usb_action.triggered.connect(self.usb_receive)
         self.usb_menu.addAction(usb_action);
 
@@ -259,9 +259,9 @@ class MainWindow(QMainWindow):
     def bluetooth_connect(self, update_id=None):
         if QMessageBox.question(self, 'Start Bluetooth of Blood Pressure Monit'
                                 'or ', 'Click OK when Bluetooth icon of Blood'
-                                ' Pressure Monitor flashes. Press Start button'
-                                ' for 8 seconds to get it to flash.',
-                                QMessageBox.Ok |
+                                ' Pressure Monitor flashes. Press and hold '
+                                'Start button for 8 seconds to get it '
+                                'to flash.', QMessageBox.Ok |
                                 QMessageBox.Cancel) != QMessageBox.Ok:
             return
         try:

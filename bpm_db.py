@@ -113,7 +113,7 @@ def insert_measurements(patient_id, measurements, prnt = lambda s : print(s)):
                                                          sys,dia,pulse)
                                 VALUES(?,?,?,?,?) ''',
                             (patient_id, date, sys, dia, pulse))
-        prnt('Downloaded %d measurements, inserted %d into database %s.' %
+        prnt('Downloaded %d readings, added %d to database %s.' %
              (len(measurements), no_inserted, DB_FILE))
 
 
@@ -205,7 +205,7 @@ def import_csv(csvfile, prnt = lambda s : print(s),
                              values['dia(mmHg)'],
                              values['pulse(P/min)']))
 
-    prnt('Read %d measurements from %s for patient "%s", inserted %d into '
+    prnt('Read %d readings from %s for patient "%s", added %d to '
          'database %s.' % (len(measurements), csvfile.name, patient_id,
                            no_inserted, DB_FILE))
 
@@ -252,7 +252,7 @@ def import_db(file, prnt = lambda s : print(s),
                                                      date,sys,dia,pulse)
                                     VALUES(?,?,?,?,?) ''',
                                 (patient_id, date, sys, dia, pulse))
-        prnt('Read %d measurements from %s, inserted %d into database %s.' %
+        prnt('Read %d readings from %s, added %d to database %s.' %
              (no_measurements, file.name, no_inserted, DB_FILE))
 
 
