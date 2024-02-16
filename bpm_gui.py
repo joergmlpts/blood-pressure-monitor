@@ -175,7 +175,7 @@ class MainWindow(QMainWindow):
         dialog = PatientDialog(PatientDialog.ADD_PATIENT, self.patient_ids)
         info = dialog.run()
         if info:
-            insert_patient(info)
+            bpm_db.insert_patient(info)
             self.patient_ids[info['id']] = info
             self.refresh_window()
 
@@ -186,7 +186,7 @@ class MainWindow(QMainWindow):
         dialog = PatientDialog(PatientDialog.DELETE_PATIENT, self.patient_ids)
         info = dialog.run()
         if info:
-            delete_patient(info)
+            bpm_db.delete_patient(info)
             del self.patient_ids[info['id']]
             self.setCentralWidget(BPWidget(self.centralWidget().patient_id if
                                            self.centralWidget().patient_id !=
@@ -200,7 +200,7 @@ class MainWindow(QMainWindow):
         dialog = PatientDialog(PatientDialog.EDIT_PATIENT, self.patient_ids)
         info = dialog.run()
         if info:
-            insert_patient(info)
+            bpm_db.insert_patient(info)
             self.patient_ids[info['id']] = info
             self.refresh_window()
 
@@ -231,7 +231,7 @@ class MainWindow(QMainWindow):
             info = dialog.run()
             self.app.processEvents()
             if info:
-                insert_patient(info)
+                bpm_db.insert_patient(info)
                 self.patient_ids[info['id']] = info
                 return info['id'], True
         return '', False
@@ -306,7 +306,7 @@ class MainWindow(QMainWindow):
                                    self.patient_ids)
             info = dialog.run()
             if info:
-                insert_patient(info)
+                bpm_db.insert_patient(info)
                 self.patient_ids[info['id']] = info
                 connect_fnc(update_id=info['id'])
 
