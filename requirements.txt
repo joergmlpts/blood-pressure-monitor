@@ -1,0 +1,5 @@
+bleak
+dbus-python ; sys_platform == "linux"
+hid
+matplotlib
+PyQt5
