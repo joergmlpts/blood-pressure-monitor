@@ -60,7 +60,7 @@ elif sys.platform == 'win32':
             self.paired_devices = set()
             self.traverseRegistryTree(winreg.HKEY_LOCAL_MACHINE,
                                       r'SYSTEM\CurrentControlSet\Services'
-                                       '\BTHPORT\Parameters\Keys')
+                                      r'\BTHPORT\Parameters\Keys')
     # This Windows-specific function returns all the Bluetooth
     # devices that have been paired with this computer.
     def paired_bluetooth_devices():
