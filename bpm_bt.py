@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import asyncio, datetime, sys
-from bleak import discover, BleakClient # install with 'pip install bleak'
+from bleak import BleakScanner, BleakClient # install with 'pip install bleak'
 
 
 ########################################################
@@ -93,7 +93,7 @@ class Discovery:
             self.bpm.loop.run_until_complete(self.run()) # before Python 3.10
 
     async def run(self):
-        self.devices = await discover()
+        self.devices = await BleakScanner.discover(timeout=15.0)
 
         # restrict to only devices that have been paired with this computer
         paired_devices = paired_bluetooth_devices()
@@ -138,7 +138,10 @@ class Discovery:
             async with BleakClient(mac_addr, **args) as client:
                 if self.found_device:
                     return # another coroutine has already found it
-                services = await client.get_services()
+                if hasattr(client, 'get_services'):
+                    services = await client.get_services()
+                else:
+                    services = client.services
                 if (services.get_service(self.bpm.SERVICE_UUID) and
                     services.get_characteristic(self.bpm.
                                                 NOTIFY_CHARACTERISTIC_UUID) and
@@ -161,7 +164,7 @@ class Discovery:
                                       self.found_device))
         except Exception as e:
             # don't report for other devices than the Blood Pressure Monitor
-            if self.found_device == mac_addr:
+            if self.found_device == mac_addr and not self.bpm.closed:
                 self.bpm.prnt('Exception: ' + str(e))
 
 
@@ -210,6 +213,7 @@ class Microlife_BTLE():
         self.result_event = asyncio.Event()   # event signals result received
         self.received_value = bytearray()     # data received so far
         self.result = bytearray()             # command result received
+        self.closed = False
 
     # returns a string
     def get_patient_id(self):
@@ -252,6 +256,7 @@ class Microlife_BTLE():
         elif self.patient_id:
             await self.get_data()
         await client.stop_notify(self.NOTIFY_CHARACTERISTIC_UUID)
+        self.closed = True
         await self.send_command(self.CMD_DISCONNECT, wait_for_response=False)
 
     # read blood pressure measurements
