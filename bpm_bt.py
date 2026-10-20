@@ -311,7 +311,17 @@ class Microlife_BTLE():
         expected_length = (self.received_value[2] * 256 +
                            self.received_value[3] + 4)
         if len(self.received_value) >= expected_length:
-            assert len(self.received_value) == expected_length
+            # begin fix for issue #5
+            if len(self.received_value) > expected_length:
+                self.received_value = self.received_value[expected_length:]
+                if len(self.received_value) < 5:
+                    return
+                assert self.received_value[0:2] == b'M:'
+                expected_length = (self.received_value[2] * 256 +
+                                   self.received_value[3] + 4)
+                if len(self.received_value) < expected_length:
+                    return
+            # end fix for issue #5
             checksum = sum(self.received_value[:-1]) % 256
             assert checksum == self.received_value[-1]
             self.result = self.received_value[4:-1]
