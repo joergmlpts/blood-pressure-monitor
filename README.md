@@ -1,3 +1,11 @@
+This fork from https://github.com/joergmlpts/blood-pressure-monitor is created to add support for BP A7 Touch BT tonometer.
+
+bpa7_usb.py - python3 performs synchronization via USB. It is for Linux only.
+Developed under Ubuntu Ubuntu 24.04.5 LTS (HWE). For me it was critical to upgrade to HWE kernel 7.0.0-38-generic because of the bug in cypress_m8 serial port driver.
+Without upgrade to HWE closing the port caused all system to hang. Only hardware reboot helped. On HWE close() on port causes only the process to hang, that's why I do not close the port in this script and use os._exit(0) instead.
+ 
+
+
 # Microlife Bluetooth and USB Blood Pressure Monitors for Linux, MacOS and Windows
 
 This repository provides Python code to download readings via Bluetooth from the Microlife BP3GY1-2N blood pressure monitor sold at Costco stores. USB devices, specifically the Microlife model BP3GX1-5X, purchased at Costco in February 2015, are also supported.
