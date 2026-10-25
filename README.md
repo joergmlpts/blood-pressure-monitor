@@ -1,10 +1,12 @@
-This fork from https://github.com/joergmlpts/blood-pressure-monitor is created to add support for BP A7 Touch BT tonometer.
+## Fork notes
+This fork for [joergmlpts/blood-pressure-monitor](https://github.com/joergmlpts/blood-pressure-monitor) is created to add support for **BP A7 Touch BT** tonometer.
 
-bpa7_usb.py - python3 performs synchronization via USB. It is for Linux only.
-Developed under Ubuntu Ubuntu 24.04.5 LTS (HWE). For me it was critical to upgrade to HWE kernel 7.0.0-38-generic because of the bug in cypress_m8 serial port driver.
-Without upgrade to HWE closing the port caused all system to hang. Only hardware reboot helped. On HWE close() on port causes only the process to hang, that's why I do not close the port in this script and use os._exit(0) instead.
- 
+`bpa7_usb.py` — a Python 3 script that performs synchronization via USB. Linux only.
+Developed on Ubuntu 24.04.5 LTS (HWE). An HWE kernel upgrade (`7.0.0-38-generic`) was required because of a bug in the `cypress_m8` serial-port driver.
+Without upgrade to HWE closing the port caused the whole system to hang. Only a hard reboot recovered it. 
+With HWE, calling `close()` on the port hangs only the process, so this script does not close the port and calls `os._exit(0)` instead.
 
+--- _Author's original README below._
 
 # Microlife Bluetooth and USB Blood Pressure Monitors for Linux, MacOS and Windows
 
