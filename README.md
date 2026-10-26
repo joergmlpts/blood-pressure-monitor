@@ -1,13 +1,3 @@
-## Fork notes
-This fork for [joergmlpts/blood-pressure-monitor](https://github.com/joergmlpts/blood-pressure-monitor) is created to add support for **BP A7 Touch BT** tonometer.
-
-`bpa7_usb.py` — a Python 3 script that performs synchronization via USB. Linux only.
-Developed on Ubuntu 24.04.5 LTS (HWE). An HWE kernel upgrade (`7.0.0-38-generic`) was required because of a bug in the `cypress_m8` serial-port driver.
-Without upgrade to HWE closing the port caused the whole system to hang. Only a hard reboot recovered it. 
-With HWE, calling `close()` on the port hangs only the process, so this script does not close the port and calls `os._exit(0)` instead.
-
---- _Author's original README below._
-
 # Microlife Bluetooth and USB Blood Pressure Monitors for Linux, MacOS and Windows
 
 This repository provides Python code to download readings via Bluetooth from the Microlife BP3GY1-2N blood pressure monitor sold at Costco stores. USB devices, specifically the Microlife model BP3GX1-5X, purchased at Costco in February 2015, are also supported.
@@ -130,3 +120,14 @@ On Android, the Microlife Connect app stores blood pressure readings in a sqlite
 The Microlife Connect app on Android communicates via Bluetooth LE and writes extensive debug log files in the `sdcard/Downloads` directory. These logs contain all the data that is passed back and forth between the app and the blood pressure monitor. The Bluetooth communication code is based on the traffic seen in these debug logs.
 
 For USB, [phako](https://github.com/phako/BPM) documented and implemented the communication of a Microlife blood pressure monitor. That has been extremely helpful. Another implementation is from [frankyn](https://github.com/frankyn/BPADataDownloader).
+
+## Support for BP A7 Touch BT tonometer
+
+The support for **BP A7 Touch BT** tonometer was contributed by [LTepliakov](https://github.com/LTepliakov).
+
+`bpa7_usb.py` — a Python 3 script that performs synchronization via USB. Linux only.
+Developed on Ubuntu 24.04.5 LTS (HWE). An HWE kernel upgrade (`7.0.0-38-generic`) was required because of a bug in the `cypress_m8` serial-port driver.
+Without upgrade to HWE closing the port caused the whole system to hang. Only a hard reboot recovered it. 
+With HWE, calling `close()` on the port hangs only the process, so this script does not close the port and calls `os._exit(0)` instead.
+
+
