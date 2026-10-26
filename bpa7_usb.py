@@ -114,6 +114,7 @@ def find_microlife() -> List[str]:
         
         if vendor == VENDOR_ID and product == PRODUCT_ID:
             result.append(os.path.join('/dev', os.path.basename(tty)))
+#            result.append('/dev/ttyUSB1')  # for testing only
     return result
 
 def check_port_permissions(port: str) -> bool:
